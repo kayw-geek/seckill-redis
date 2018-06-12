@@ -38,8 +38,8 @@ class MysqlAffairController extends Controller
      */
     public function buildOrder()
     {
+        DB::beginTransaction();
         try{
-            DB::transaction(function (){
                 $goodsNum = Goods::where('id',1)->value('num');//库存
                 $goodsPrice = Goods::where('id',1)->value('price');//单价
                 if($goodsNum<1) return false;
@@ -53,7 +53,7 @@ class MysqlAffairController extends Controller
                 $numBool = Goods::where('id',1)->decrement('num');//库存自减
                 if(!$numBool) return false;
                 echo '添加成功';
-            });
+
 
         }catch (Exception $e){
             DB::rollBack();
