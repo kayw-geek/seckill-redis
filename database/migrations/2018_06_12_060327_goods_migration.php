@@ -13,7 +13,7 @@ class GoodsMigration extends Migration
      */
     public function up()
     {
-        Schema::create('Goods',function (Blueprint $table){
+        Schema::create('goods',function (Blueprint $table){
             $table->increments('id');
             $table->string('name','50');//商品名称
             $table->unsignedInteger('num');//库存
@@ -29,6 +29,6 @@ class GoodsMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('Goods');
+        Schema::drop('goods');
     }
 }
