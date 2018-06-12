@@ -56,8 +56,11 @@ class MysqlAffairController extends Controller
             });
 
         }catch (Exception $e){
+            DB::rollBack();
             exit('error');
         }
+
+        DB::commit();
 
     }
 }
