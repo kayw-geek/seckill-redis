@@ -53,14 +53,14 @@ class MysqlAffairController extends Controller
                 $numBool = Goods::where('id',1)->decrement('num');//库存自减
                 if(!$numBool) return false;
                 echo '添加成功';
-
+                 DB::commit();
 
         }catch (Exception $e){
             DB::rollBack();
             exit('error');
         }
 
-        DB::commit();
+
 
     }
 }
