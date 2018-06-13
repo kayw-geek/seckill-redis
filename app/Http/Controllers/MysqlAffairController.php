@@ -6,7 +6,7 @@ use App\Goods;
 use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Mockery\Exception;
+
 
 /**
  * Class MysqlAffairController
@@ -38,26 +38,26 @@ class MysqlAffairController extends Controller
      */
     public function buildOrder()
     {
+        //开启事务
         DB::beginTransaction();
         try{
                 $goodsNum = Goods::where('id',1)->value('num');//库存
                 $goodsPrice = Goods::where('id',1)->value('price');//单价
-                if($goodsNum<1) return false;
-                $orderNo = $this->buildOrderNo();//单号
-                $data['order_num'] = $orderNo;
-                $data['user_id'] = 1;
-                $data['goods_id'] = 1;
-                $data['order_price'] = $goodsPrice;
-                $bool = Order::insert($data);
-                if (!$bool) return false;
-                $numBool = Goods::where('id',1)->decrement('num');//库存自减
-                if(!$numBool) return false;
-                echo '添加成功';
-                 DB::commit();
+                if($goodsNum>=1) {
+                    $orderNo = $this->buildOrderNo();//单号
+                    //赋值
+                    $data['order_num'] = $orderNo;
+                    $data['user_id'] = 1;
+                    $data['goods_id'] = 1;
+                    $data['order_price'] = $goodsPrice;
+                    $bool = Order::insert($data);//插入订单数据
+                    $numBool = Goods::where('id',1)->decrement('num');//库存自减
+                    if($bool && $numBool) DB::commit();//提交事务
+                }
 
-        }catch (Exception $e){
-            DB::rollBack();
-            exit('error');
+        }catch (\Exception $e){
+            echo $e->getMessage();
+            DB::rollBack();//回滚事务
         }
 
 

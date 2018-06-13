@@ -8,5 +8,5 @@ class Goods extends Model
 {
     protected $table = 'goods';
 
-    protected $fillable = [];
+    protected $guarded  = [];
 }
