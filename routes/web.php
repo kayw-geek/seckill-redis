@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/mysql','MysqlAffairController@buildOrder');
-Route::get('/a','MysqlAffairController@buildOrderNo');
-Route::get('/b','RedisAffairController@buildOrder');
-Route::get('/c','RedisAffairController@redisInit');
+Route::get('/buildOrderNo','MysqlAffairController@buildOrderNo');
+Route::get('/buildOrder','RedisAffairController@buildOrder');
+Route::get('/redisInit','RedisAffairController@redisInit');
+Route::get('/buildList','RedisAffairController@buildList');
+Route::get('/redisDel','RedisAffairController@redisDel');
